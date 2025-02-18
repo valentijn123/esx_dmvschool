@@ -25,15 +25,12 @@ client_scripts {
 	'client/main.lua'
 }
 
-ui_page 'html/ui.html'
+ui_page 'html/dist/index.html'
 
 files {
-	'html/ui.html',
-	'html/dmv.png',
-	'html/styles.css',
-	'html/questions.js',
-	'html/scripts.js',
-	'html/debounce.min.js'
+	'html/dist/index.html',
+	'html/dist/assets/*',
+	'html/dmv.png'
 }
 
 dependencies {
