@@ -32,6 +32,49 @@
       Download de voorgebouwde UI van de link naar de voorgebouwde UI.
 
    2. **Plaats de bestanden:**
-      Plaats de gedownloade bestanden in de [html] map van de resource
+      Plaats de gedownloade bestanden in de [html](http://_vscodecontentref_/1) map van de resource.
 
-2. **Backend functies aanpassen:**
+2. **Licenties Toevoegen:**
+   Voeg de volgende licenties toe aan de `licenses` tabel in je database. Normaal bevat de `licenses` tabel alleen de volgende gegevens:
+   ```json
+   {
+       "table": "licenses",
+       "rows": [
+           {
+               "type": "boat",
+               "label": "Boat License"
+           },
+           {
+               "type": "dmv",
+               "label": "Driving Permit"
+           },
+           {
+               "type": "drive",
+               "label": "Drivers License"
+           },
+           {
+               "type": "drive_bike",
+               "label": "Motorcycle License"
+           },
+           {
+               "type": "drive_truck",
+               "label": "Commercial Drivers License"
+           },
+           {
+               "type": "weapon",
+               "label": "Weapon License"
+           },
+           {
+               "type": "weed_processing",
+               "label": "Weed Processing License"
+           }
+       ]
+   }
+   ```
+
+   Voeg de volgende SQL-query toe om de licenties in de database in te voegen:
+   ```sql
+   INSERT INTO `licenses` (`type`, `label`) VALUES
+       ('bike', 'Motor Theorie'),
+       ('truck', 'Vrachtwagen Theorie');
+   ```
