@@ -1,15 +1,37 @@
-<h1 align='center'>[ESX] DMV School</a></h1><p align='center'><b><a href='https://discord.esx-framework.org/'>Discord</a> - <a href='https://documentation.esx-framework.org/legacy/installation'>Documentation</a></b></h5>
+# 5h rijschool
 
-Tired of waiting for your local DMV to be free so you can get your driving licence? well today is your day! This amazingly Realistic DMV schools allows you to sit a tough theory test and a Rage fueled , high-stakes Practial Driving Test for Cars, motocycles and Trucks, all from the comfort of FiveM!
+## Installatie
 
-# Legal
+1. **Installeer de UI:**
+   Om de UI te installeren, heb je twee opties: zelf builden of de voorgebouwde UI downloaden.
 
-esx_dmvschool - realistic DMV school for ESX
+   ### Optie 1: Zelf Builden
 
-Copyright (C) 2015-2023 Jérémie N'gadi
+   1. **Installeer Node.js:**
+      Zorg ervoor dat je [Node.js](https://nodejs.org/) geïnstalleerd hebt op je systeem.
 
-This program Is free software: you can redistribute it And/Or modify it under the terms Of the GNU General Public License As published by the Free Software Foundation, either version 3 Of the License, Or (at your option) any later version.
+   2. **Installeer de benodigde pakketten:**
+      Navigeer naar de `html` map van de resource en installeer de benodigde npm-pakketten:
+      ```sh
+      cd html
+      npm install
+      ```
 
-This program Is distributed In the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty Of MERCHANTABILITY Or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License For more details.
+   3. **Build de UI:**
+      Gebruik het volgende commando om de UI te builden:
+      ```sh
+      npm run build
+      ```
 
-You should have received a copy Of the GNU General Public License along with this program. If Not, see <http://www.gnu.org/licenses/>.
+   4. **Controleer de build:**
+      Zorg ervoor dat de build succesvol is en dat de gegenereerde bestanden zich in de `dist` map bevinden.
+
+   ### Optie 2: Voorgebouwde UI Downloaden
+
+   1. **Download de voorgebouwde UI:**
+      Download de voorgebouwde UI van de link naar de voorgebouwde UI.
+
+   2. **Plaats de bestanden:**
+      Plaats de gedownloade bestanden in de [html] map van de resource
+
+2. **Backend functies aanpassen:**

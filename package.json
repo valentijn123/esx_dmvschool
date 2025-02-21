@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@sveltejs/svelte-scroller": "^2.0.7",
+    "@svelteuidev/composables": "^0.15.7",
+    "@svelteuidev/core": "^0.15.7",
+    "@svelteuidev/motion": "^0.15.7"
+  }
+}

@@ -11,6 +11,7 @@ local CurrentBlip       = nil
 local CurrentZoneType   = nil
 local LastVehicleHealth = nil
 local failedTest = false
+local isDev = false -- Set this to true when testing with dev server
 
 function DrawMissionText(msg, time)
 	ClearPrints()
@@ -19,35 +20,36 @@ function DrawMissionText(msg, time)
 	EndTextCommandPrint(time, true)
 end
 
-function StartTheoryTest()
-	CurrentTest = 'theory'
+function StartTheoryTest(type)
+    CurrentTest = 'theory'
+    CurrentTestType = type
 
-	SendNUIMessage({
-		openQuestion = true
-	})
-
-	ESX.SetTimeout(200, function()
-		SetNuiFocus(true, true)
-	end)
-
-
+    SendNUIMessage({
+        openQuestion = true,
+        testType = type -- This will determine which question set to use
+    })
+    
+    ESX.SetTimeout(200, function()
+        SetNuiFocus(true, true)
+    end)
 end
 
 function StopTheoryTest(success)
-	CurrentTest = nil
+    CurrentTest = nil
 
-	SendNUIMessage({
-		openQuestion = false
-	})
+    SendNUIMessage({
+        openQuestion = false
+    })
 
-	SetNuiFocus(false)
+    SetNuiFocus(false)
 
-	if success then
-		TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
-		ESX.ShowNotification(TranslateCap('passed_test'))
-	else
-		ESX.ShowNotification(TranslateCap('failed_test'))
-	end
+    if success then
+        -- Add license based on test type
+        TriggerServerEvent('esx_dmvschool:addLicense', CurrentTestType)
+        ESX.ShowNotification(TranslateCap('passed_test'))
+    else
+        ESX.ShowNotification(TranslateCap('failed_test'))
+    end
 end
 
 function StartDriveTest(type)
@@ -98,13 +100,17 @@ function OpenDMVSchoolMenu()
 		{unselectable = true, icon = "fas fa-car", title = TranslateCap("driving_school")}
 	}
 
-	if not ownedLicenses['dmv'] then
-		elements[#elements+1] = {
-			icon = "fas fa-car",
-			title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('theory_test'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['dmv'])))),
-			value = "theory_test"
-		}
-	end
+	-- Add theory tests
+    for type, data in pairs(Config.TheoryTestCategories) do
+        if not ownedLicenses[type] then
+            elements[#elements+1] = {
+                icon = "fas fa-book",
+                title = (('%s: <span style="color:green;">%s</span>'):format(data.label, TranslateCap('school_item', ESX.Math.GroupDigits(data.price)))),
+                value = "theory_test",
+                testType = type
+            }
+        end
+    end
 
 	if ownedLicenses['dmv'] then
 		if not ownedLicenses['drive'] then
@@ -140,11 +146,12 @@ function OpenDMVSchoolMenu()
 			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
 				if haveMoney then
 					ESX.CloseContext()
-					StartTheoryTest()
+					-- Hier geven we het juiste testType mee
+					StartTheoryTest(element.testType)
 				else
 					ESX.ShowNotification(TranslateCap('not_enough_money'))
 				end
-			end, 'dmv')
+			end, element.testType)  -- Pass correct type to server callback
 		elseif element.value == "drive_test" then
 			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
 				if haveMoney then
@@ -369,4 +376,25 @@ CreateThread(function()
 		Wait(sleep)
 	end
 end)
+
+-- Add this near your other command registrations
+-- Replace the existing dmv_debug command with this:
+RegisterCommand('dmv_debug', function(source, args)
+    -- Remove the debug check to always allow the command
+    if args[1] == 'open' then
+        SetNuiFocus(true, true)
+        SendNUIMessage({
+            openQuestion = true
+        })
+        -- Set visible to true in the NUI
+        visible = true
+    elseif args[1] == 'close' then
+        SetNuiFocus(false, false)
+        SendNUIMessage({
+            openQuestion = false
+        })
+        -- Set visible to false in the NUI
+        visible = false
+    end
+end, false)
 

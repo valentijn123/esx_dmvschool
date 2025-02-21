@@ -5,6 +5,29 @@ Config.SpeedMultiplier = 3.6
 Config.SpeedingErrorDelay = 5000 --Min: 5000ms
 Config.Locale = GetConvar('esx:locale', 'en')
 
+Config.TheoryTestCategories = {
+    dmv = {
+        price = 500,
+        label = "Auto Theorie",
+        questionsRequired = 2  -- Number of questions needed to pass
+    },
+    boat = {
+        price = 750,
+        label = "Vaarbewijs Theorie",
+        questionsRequired = 2
+    },
+    bike = {
+        price = 600,
+        label = "Motor Theorie",
+        questionsRequired = 2
+    },
+    truck = {
+        price = 1000,
+        label = "Vrachtwagen Theorie",
+        questionsRequired = 2
+    }
+}
+
 Config.Prices = {
 	dmv         = 500,
 	drive       = 2500,

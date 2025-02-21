@@ -25,7 +25,7 @@ client_scripts {
 	'client/main.lua'
 }
 
-ui_page 'html/dist/index.html'
+ui_page 'http://localhost:3000/'
 
 files {
 	'html/dist/index.html',

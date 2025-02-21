@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply antialiased text-black bg-white;
+  html, body {
+    @apply bg-transparent;
+    margin: 0;
+    padding: 0;
   }
-} 
+}
