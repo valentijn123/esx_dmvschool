@@ -109,3 +109,45 @@ Config.TheoryTestCategories = {
 ```
 
 Vergeet dit niet toe te voegen! In standaard ESX is het autotheorie examen DMV genoemd, check of dit ook zo bij 5H is!
+
+4. **Client Functie Aanpassen:**
+
+In [`client/main.lua`](client/main.lua) moet de `StartTheoryTest` functie worden aangepast om verschillende types examens te ondersteunen:
+
+Oude Functie:
+```lua
+function StartTheoryTest()
+    CurrentTest = 'theory'
+
+    SendNUIMessage({
+        openQuestion = true
+    })
+
+    ESX.SetTimeout(200, function()
+        SetNuiFocus(true, true)
+    end)
+end
+```
+
+Nieuwe Functie:
+```lua
+function StartTheoryTest(type)
+    CurrentTest = 'theory'
+    CurrentTestType = type  -- Slaat het type examen op (dmv, bike, truck, boat)
+
+    SendNUIMessage({
+        openQuestion = true,
+        testType = type     -- Stuurt type door naar NUI interface
+    })
+    
+    ESX.SetTimeout(200, function()
+        SetNuiFocus(true, true)
+    end)
+end
+```
+
+Deze aanpassing:
+- Voegt ondersteuning toe voor verschillende types theorie-examens
+- Slaat het type examen op in `CurrentTestType`
+- Stuurt het type examen door naar de NUI interface
+- Maakt het mogelijk om verschillende vragensets te tonen per examen type
