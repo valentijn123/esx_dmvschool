@@ -110,7 +110,7 @@ Config.TheoryTestCategories = {
 
 Vergeet dit niet toe te voegen! In standaard ESX is het autotheorie examen DMV genoemd, check of dit ook zo bij 5H is!
 
-4. **Client Functie Aanpassen:**
+4. **Client Functies Aanpassen:**
 
 In [`client/main.lua`](client/main.lua) moet de `StartTheoryTest` functie worden aangepast om verschillende types examens te ondersteunen:
 
@@ -151,3 +151,49 @@ Deze aanpassing:
 - Slaat het type examen op in `CurrentTestType`
 - Stuurt het type examen door naar de NUI interface
 - Maakt het mogelijk om verschillende vragensets te tonen per examen type
+
+In [`client/main.lua`](client/main.lua) moet ook de `StopTheoryTest` functie worden aangepast om de juiste licentie toe te voegen op basis van het examen type:
+
+Oude Functie:
+```lua
+function StopTheoryTest(success)
+    CurrentTest = nil
+
+    SendNUIMessage({
+        openQuestion = false
+    })
+
+    SetNuiFocus(false)
+
+    if success then
+        TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
+        ESX.ShowNotification(TranslateCap('passed_test'))
+    else
+        ESX.ShowNotification(TranslateCap('failed_test'))
+    end
+end
+```
+
+Nieuwe Functie:
+```lua
+function StopTheoryTest(success)
+    CurrentTest = nil
+
+    SendNUIMessage({
+        openQuestion = false
+    })
+
+    SetNuiFocus(false)
+
+    if success then
+        -- License toevoegen gebaseerd op categorie
+        TriggerServerEvent('esx_dmvschool:addLicense', CurrentTestType)
+        ESX.ShowNotification(TranslateCap('passed_test'))
+    else
+        ESX.ShowNotification(TranslateCap('failed_test'))
+    end
+end
+```
+
+Deze aanpassing:
+- Voegt de juiste licentie toe op basis van het examen type (`CurrentTestType`)
