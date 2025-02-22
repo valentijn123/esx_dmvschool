@@ -29,39 +29,41 @@
         correct: 2
       },
       {
-        question: "Wat is de maximumsnelheid binnen de bebouwde kom?",
+          question: "Wanneer moet je je richtingaanwijzer aanzetten in deze situatie?",
+          image: "img/turn_signal.jpg",
+          answers: [
+              "Direct voor het afslaan",
+              "Ongeveer 100 meter voor de afslag",
+              "Na het afslaan",
+              "Richtingaanwijzer is niet nodig"
+          ],
+          correct: 1
+      },
+      {
+          question: "Wat is de minimale veilige afstand tot je voorligger bij deze snelheid?",
+          image: "img/safe_distance.jpg",
+          answers: [
+              "1 seconde afstand",
+              "2 seconden afstand",
+              "3 seconden afstand",
+              "4 seconden afstand"
+          ],
+          correct: 1
+      },
+      {
+        question: "Wat betekent deze situatie op het wegdek?",
+        image: "img/road_markings.jpg",
         answers: [
-          "30 km/u",
-          "50 km/u",
-          "60 km/u",
-          "70 km/u"
+          "Hier mag je inhalen",
+          "Hier mag je niet inhalen",
+          "Hier moet je stoppen",
+          "Hier moet je voorrang verlenen"
         ],
         correct: 1
       },
       {
-        question: "Wat is de juiste volgorde bij het maken van een bocht?",
-        image: "img/corner.jpg",
-        answers: [
-          "Gas geven, sturen, remmen",
-          "Remmen, gas geven, sturen",
-          "Remmen, sturen, gas geven",
-          "Sturen, remmen, gas geven"
-        ],
-        correct: 2
-      },
-      {
-        question: "Wat is de minimale profieldiepte van autobanden?",
-        answers: [
-          "1.6 mm",
-          "2.0 mm",
-          "2.5 mm",
-          "3.0 mm"
-        ],
-        correct: 0
-      },
-      {
         question: "Je nadert deze kruising. Wie heeft er voorrang?",
-        image: "img/intersection.jpg",
+        image: "img/intersection_right.jpg",
         answers: [
           "Jij hebt voorrang",
           "De auto van rechts",
@@ -71,39 +73,41 @@
         correct: 1
       },
       {
-        question: "Wanneer moet je groot licht dimmen?",
+        question: "Welke rijstijl is correct in deze weersomstandigheden?",
+        image: "img/fog_driving.jpg",
         answers: [
-          "Bij regen",
-          "Bij tegemoetkomend verkeer",
-          "In de bebouwde kom",
-          "Alle bovenstaande antwoorden"
-        ],
-        correct: 3
-      },
-      {
-        question: "Hoe check je of je banden de juiste spanning hebben?",
-        image: "img/tire_pressure.jpg",
-        answers: [
-          "Door er tegenaan te schoppen",
-          "Met een bandenspanningsmeter",
-          "Door er naar te kijken",
-          "Door er op te duwen"
+          "Mistlicht voor én achter aan",
+          "Alleen mistlicht achter aan",
+          "Groot licht aan voor beter zicht",
+          "Alleen dimlicht is voldoende"
         ],
         correct: 1
       },
       {
-        question: "Hoe groot moet de minimale volgafstand zijn bij droog weer?",
-        answers: [
-          "1 seconde",
-          "2 seconden",
-          "3 seconden",
-          "4 seconden"
-        ],
-        correct: 1
+          question: "In welke volgorde moet je de spiegels controleren voor het wisselen van rijstrook?",
+          image: "img/mirror_sequence.jpg",
+          answers: [
+              "Alleen linkerspiegel",
+              "Binnenspiegel, buitenspiegels, schoudercheck",
+              "Schoudercheck is voldoende",
+              "Alleen binnenspiegel en rechterspiegel"
+          ],
+          correct: 1
       },
       {
-        question: "Wat moet je doen bij aquaplaning?",
-        image: "img/aquaplaning.jpg",
+        question: "Wat is de juiste reactie in deze situatie?",
+        image: "img/emergency_stop.jpg",
+        answers: [
+          "Direct vol op de rem",
+          "Rustig vaart minderen",
+          "Uitwijken naar rechts",
+          "Claxonneren en doorrijden"
+        ],
+        correct: 0
+      },
+      {
+        question: "Wat moet je doen bij aquaplaning in deze situatie?",
+        image: "img/aquaplaning_situation.jpg",
         answers: [
           "Gas loslaten en rechtuit sturen",
           "Hard remmen",
@@ -113,12 +117,13 @@
         correct: 0
       },
       {
-        question: "Wanneer gebruik je je alarmlichten?",
+        question: "Wat is de juiste handeling in deze noodsituatie?",
+        image: "img/emergency_situation.jpg",
         answers: [
-          "Als je dubbel geparkeerd staat",
-          "Bij gevaar of een noodstop",
-          "Als je haast hebt",
-          "Bij het parkeren"
+          "Doorrijden en later melden",
+          "Alarmlichten aan en veilig stoppen",
+          "Snel wegrijden",
+          "Claxonneren en doorrijden"
         ],
         correct: 1
       }
@@ -126,7 +131,7 @@
     boat: [
       {
         question: "Welke kant moet je uitwijken als je een andere boot tegenkomt?",
-        image: "boat1.jpg", 
+        image: "img/boat_passing.jpg", 
         answers: [
           "Naar stuurboord (rechts)",
           "Naar bakboord (links)",
@@ -136,13 +141,101 @@
         correct: 0
       },
       {
-        question: "Wat betekent deze vlag op een boot?",
-        image: "boat2.jpg",
+        question: "Wat betekent deze boei?",
+        image: "img/boat_buoy.jpg",
         answers: [
-          "Boot heeft voorrang",
-          "Boot heeft duikers te water",
-          "Boot is aan het vissen",
-          "Boot heeft pech"
+          "Veilige wateren",
+          "Gevaarlijke rotsen",
+          "Verboden te varen",
+          "Aanlegplaats"
+        ],
+        correct: 0
+      },
+      {
+        question: "Hoe controleer je het weer voor vertrek?",
+        image: "img/boat_weather.jpg",
+        answers: [
+          "Alleen windrichting checken",
+          "Complete weersverwachting bekijken",
+          "Naar buiten kijken is voldoende",
+          "Alleen temperatuur checken"
+        ],
+        correct: 1
+      },
+      {
+          question: "Wat moet je doen bij het varen in mist?",
+          image: "img/boat_fog.jpg",
+          answers: [
+              "Normaal doorvaren",
+              "Geluidssignalen geven en snelheid minderen",
+              "Anker uitgooien en wachten",
+              "Alleen op radar varen"
+          ],
+          correct: 1
+      },
+      {
+        question: "Wat is de maximumsnelheid in de haven?",
+        image: "img/boat_harbor.jpg",
+        answers: [
+          "5 km/u",
+          "10 km/u",
+          "15 km/u",
+          "20 km/u"
+        ],
+        correct: 0
+      },
+      {
+        question: "Welke veiligheidsuitrusting is verplicht aan boord?",
+        image: "img/boat_safety.jpg",
+        answers: [
+          "Alleen reddingsvesten",
+          "Compleet veiligheidspakket",
+          "Alleen brandblusser",
+          "Niets verplicht"
+        ],
+        correct: 1
+      },
+      {
+        question: "Hoe reageer je op hoge golven?",
+        image: "img/boat_waves.jpg",
+        answers: [
+          "Golven recht benaderen",
+          "Parallel aan de golven varen",
+          "Vol gas erdoorheen",
+          "Motor uitzetten"
+        ],
+        correct: 0
+      },
+      {
+        question: "Wanneer moet je voorrang verlenen?",
+        image: "img/boat_priority.jpg",
+        answers: [
+          "Aan boten van links",
+          "Aan zeilboten onder zeil",
+          "Aan snellere boten",
+          "Aan kleinere boten"
+        ],
+        correct: 1
+      },
+      {
+        question: "Wat doe je bij slecht zicht?",
+        image: "img/boat_visibility.jpg",
+        answers: [
+          "Gewoon doorvaren",
+          "Snelheid minderen en signalen geven",
+          "Anker uitgooien",
+          "Harder varen"
+        ],
+        correct: 1
+      },
+      {
+        question: "Hoe moet je aanmeren in de haven?",
+        image: "img/boat_dock.jpg",
+        answers: [
+          "Zo snel mogelijk",
+          "Langzaam en gecontroleerd",
+          "Vol gas en dan remmen",
+          "Maakt niet uit hoe"
         ],
         correct: 1
       }
@@ -171,14 +264,15 @@
         correct: 2
       },
       {
-        question: "Wat doe je als je voorwiel begint te slippen?",
-        answers: [
-          "Hard remmen",
-          "Gas loslaten en rechtop blijven",
-          "Stuur loslaten",
-          "Vol gas geven"
-        ],
-        correct: 1
+          question: "Wie heeft er voorrang in deze situatie?",
+          image: "img/intersection_priority.jpg",
+          answers: [
+              "Verkeer van links heeft voorrang",
+              "De eerste die aankomt heeft voorrang",
+              "Verkeer van rechts heeft voorrang",
+              "Rechtdoorgaand verkeer heeft voorrang"
+          ],
+          correct: 2
       },
       {
         question: "Hoe controleer je de ketting van je motor?",
@@ -720,11 +814,7 @@
                       class="px-8 py-3 rounded-md text-sm font-medium bg-brand-purple text-white hover:bg-brand-purple/90 transition-colors"
                       on:click={async () => {
                         // Alleen uitvoeren als we in FiveM zitten (niet localhost)
-                        if (
-                          typeof GetParentResourceName === 'function' && 
-                          'invokeNative' in window && 
-                          window.location.hostname !== "localhost"
-                        ) {
+                        if (typeof GetParentResourceName === 'function' && 'invokeNative' in window) {
                           const resourceName = GetParentResourceName();
                           try {
                             await fetch(`https://${resourceName}/${passed ? 'close' : 'kick'}`, {
@@ -736,7 +826,7 @@
                             console.error("[NUI] Fetch error:", error);
                           }
                         } else {
-                          console.warn("Not in FiveM environment or running on localhost; skipping fetch");
+                          console.warn("Not in FiveM environment; skipping fetch");
                         }
                         visible = false;
                       }}

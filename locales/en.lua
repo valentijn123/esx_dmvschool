@@ -27,4 +27,20 @@ Locales['en'] = {
   ['errors'] = 'mistakes: ~r~%s/%s',
   ['you_damaged_veh'] = 'you damaged the vehicle',
   ['not_enough_money'] = 'You don\'t have enough money',
+  
+  -- Add new translations for test types
+  ['road_test_drive'] = 'Car Practical Test',
+  ['road_test_drive_bike'] = 'Motorcycle Practical Test',
+  ['road_test_drive_truck'] = 'Truck Practical Test',
+  
+  -- Theory test names
+  ['theory_test_car'] = 'Car Theory Test',
+  ['theory_test_bike'] = 'Motorcycle Theory Test',
+  ['theory_test_truck'] = 'Truck Theory Test',
+  ['theory_test_boat'] = 'Boat License Theory Test',
+  
+  -- Test status messages
+  ['prepare_theory_test'] = 'Preparing theory test...',
+  ['prepare_practical_test'] = 'Preparing practical test...',
+  ['requires_theory_test'] = 'You need to pass the theory test first',
 }

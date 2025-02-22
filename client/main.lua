@@ -90,17 +90,17 @@ CurrentZoneType = type
 end
 
 function OpenDMVSchoolMenu()
-	local ownedLicenses = {}
+    local ownedLicenses = {}
 
-	for i=1, #Licenses, 1 do
-		ownedLicenses[Licenses[i].type] = true
-	end
+    for i=1, #Licenses, 1 do
+        ownedLicenses[Licenses[i].type] = true
+    end
 
-	local elements = {
-		{unselectable = true, icon = "fas fa-car", title = TranslateCap("driving_school")}
-	}
+    local elements = {
+        {unselectable = true, icon = "fas fa-car", title = TranslateCap("driving_school")}
+    }
 
-	-- Add theory tests
+    -- Add theory tests
     for type, data in pairs(Config.TheoryTestCategories) do
         if not ownedLicenses[type] then
             elements[#elements+1] = {
@@ -112,61 +112,53 @@ function OpenDMVSchoolMenu()
         end
     end
 
-	if ownedLicenses['dmv'] then
-		if not ownedLicenses['drive'] then
-			elements[#elements+1] = {
-				icon = "fas fa-car",
-				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_car'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive'])))),
-				value = "drive_test",
-				type = "drive"
-			}
-		end
+    -- Map theory licenses to practical licenses
+    local theoryToPractical = {
+        dmv = 'drive',      -- Auto theorie -> Auto praktijk
+        bike = 'drive_bike', -- Motor theorie -> Motor praktijk
+        truck = 'drive_truck' -- Vrachtwagen theorie -> Vrachtwagen praktijk
+    }
 
-		if not ownedLicenses['drive_bike'] then
-			elements[#elements+1] = {
-				icon = "fas fa-car",
-				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_bike'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive_bike'])))),
-				value = "drive_test",
-				type = "drive_bike"
-			}
-		end
+    -- Add practical tests only if player has corresponding theory license
+    for theoryType, practicalType in pairs(theoryToPractical) do
+        if ownedLicenses[theoryType] and not ownedLicenses[practicalType] then
+            elements[#elements+1] = {
+                icon = "fas fa-car",
+                title = (('%s: <span style="color:green;">%s</span>'):format(
+                    TranslateCap('road_test_' .. practicalType), 
+                    TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices[practicalType]))
+                )),
+                value = "drive_test",
+                type = practicalType
+            }
+        end
+    end
 
-		if not ownedLicenses['drive_truck'] then
-			elements[#elements+1] = {
-				icon = "fas fa-car",
-				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_truck'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive_truck'])))),
-				value = "drive_test",
-				type = "drive_truck"
-			}
-		end
-	end
-
-	ESX.OpenContext("right", elements, function(menu,element)
-		if element.value == "theory_test" then
-			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
-				if haveMoney then
-					ESX.CloseContext()
-					-- Hier geven we het juiste testType mee
-					StartTheoryTest(element.testType)
-				else
-					ESX.ShowNotification(TranslateCap('not_enough_money'))
-				end
-			end, element.testType)  -- Pass correct type to server callback
-		elseif element.value == "drive_test" then
-			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
-				if haveMoney then
-					ESX.CloseContext()
-					StartDriveTest(element.type)
-				else
-					ESX.ShowNotification(TranslateCap('not_enough_money'))
-				end
-			end, element.type)
-		end
-	end, function(menu)
-		CurrentAction     = 'dmvschool_menu'
-		CurrentActionMsg  = TranslateCap('press_open_menu')
-		CurrentActionData = {}
-	end)
+    ESX.OpenContext("right", elements, function(menu,element)
+        if element.value == "theory_test" then
+            ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+                if haveMoney then
+                    ESX.CloseContext()
+                    StartTheoryTest(element.testType)
+                else
+                    ESX.ShowNotification(TranslateCap('not_enough_money'))
+                end
+            end, element.testType)
+        elseif element.value == "drive_test" then
+            ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+                if haveMoney then
+                    ESX.CloseContext()
+                    StartDriveTest(element.type)
+                else
+                    ESX.ShowNotification(TranslateCap('not_enough_money'))
+                end
+            end, element.type)
+        end
+    end, function(menu)
+        CurrentAction     = 'dmvschool_menu'
+        CurrentActionMsg  = TranslateCap('press_open_menu')
+        CurrentActionData = {}
+    end)
 end
 
 RegisterNUICallback('question', function(data, cb)

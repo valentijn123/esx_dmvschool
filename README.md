@@ -78,3 +78,34 @@
        ('bike', 'Motor Theorie'),
        ('truck', 'Vrachtwagen Theorie');
    ```
+
+3. **Theorie Catogorieën toevoegen aan de config:**
+
+In de [`config.lua`](config.lua)  zijn de volgende opties toegevoegd voor de verschillende theorie-examens:
+
+```lua
+Config.TheoryTestCategories = {
+    dmv = {
+        price = 500,        -- Kosten voor het auto theorie-examen
+        label = "Auto Theorie",
+        questionsRequired = 2  -- Aantal vragen dat correct beantwoord moet worden
+    },
+    boat = {
+        price = 750,        -- Kosten voor het vaarbewijs theorie-examen
+        label = "Vaarbewijs Theorie",
+        questionsRequired = 2
+    },
+    bike = {
+        price = 600,        -- Kosten voor het motor theorie-examen
+        label = "Motor Theorie",
+        questionsRequired = 2
+    },
+    truck = {
+        price = 1000,       -- Kosten voor het vrachtwagen theorie-examen
+        label = "Vrachtwagen Theorie",
+        questionsRequired = 2
+    }
+}
+```
+
+Vergeet dit niet toe te voegen! In standaard ESX is het autotheorie examen DMV genoemd, check of dit ook zo bij 5H is!
