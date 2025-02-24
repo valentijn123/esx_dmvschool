@@ -14,12 +14,17 @@
     HelpCircle as CircleQuestion // Alias HelpCircle as CircleQuestion
   } from 'lucide-svelte';
 
+  // Function to get correct image path
+  function getImagePath(imageName: string) {
+    return `/${imageName}`; // Dit pakt de afbeelding uit de static folder
+  }
+
   // Add question sets for different categories
   const questionSets = {
     dmv: [
       {
         question: "Je rijdt in de regen op de snelweg. Wat moet je doen?",
-        image: "img/rain_highway.jpg",
+        image: getImagePath("auto1.png"),
         answers: [
           "Snelheid verhogen om snel thuis te zijn",
           "Afstand verkleinen tot voorligger",
@@ -29,8 +34,8 @@
         correct: 2
       },
       {
-          question: "Wanneer moet je je richtingaanwijzer aanzetten in deze situatie?",
-          image: "img/turn_signal.jpg",
+          question: "Wanneer moet je je richtingaanwijzer aanzetten voor deze afslag?",
+          image: getImagePath("auto2.png"),
           answers: [
               "Direct voor het afslaan",
               "Ongeveer 100 meter voor de afslag",
@@ -40,30 +45,30 @@
           correct: 1
       },
       {
-          question: "Wat is de minimale veilige afstand tot je voorligger bij deze snelheid?",
-          image: "img/safe_distance.jpg",
+          question: "Mag je hier je auto parkeren?",
+          image: getImagePath("auto3.png"),
           answers: [
-              "1 seconde afstand",
-              "2 seconden afstand",
-              "3 seconden afstand",
-              "4 seconden afstand"
+              "Ja, je mag hier parkeren",
+              "Ja, alleen om te laden en lossen",
+              "Ja, als je snel weer weg bent",
+              "Nee je mag hier niet parkeren"
           ],
-          correct: 1
+          correct: 3
       },
       {
-        question: "Wat betekent deze situatie op het wegdek?",
-        image: "img/road_markings.jpg",
+        question: "Wat betekent de dubbele doorgetrokken gele streep in het midden van de weg?",
+        image: getImagePath("auto4.png"),
         answers: [
-          "Hier mag je inhalen",
-          "Hier mag je niet inhalen",
-          "Hier moet je stoppen",
-          "Hier moet je voorrang verlenen"
+          "Je mag hier niet inhalen",
+          "Je mag hier wel inhalen",
+          "Je mag hier parkeren",
+          "Je mag hier stoppen"
         ],
-        correct: 1
+        correct: 0
       },
       {
         question: "Je nadert deze kruising. Wie heeft er voorrang?",
-        image: "img/intersection_right.jpg",
+        image: getImagePath("auto5.png"),
         answers: [
           "Jij hebt voorrang",
           "De auto van rechts",
@@ -74,7 +79,7 @@
       },
       {
         question: "Welke rijstijl is correct in deze weersomstandigheden?",
-        image: "img/fog_driving.jpg",
+        image: getImagePath("auto6.png"),
         answers: [
           "Mistlicht voor én achter aan",
           "Alleen mistlicht achter aan",
@@ -85,7 +90,7 @@
       },
       {
           question: "In welke volgorde moet je de spiegels controleren voor het wisselen van rijstrook?",
-          image: "img/mirror_sequence.jpg",
+          image: getImagePath("auto7.png"),
           answers: [
               "Alleen linkerspiegel",
               "Binnenspiegel, buitenspiegels, schoudercheck",
@@ -96,7 +101,7 @@
       },
       {
         question: "Wat is de juiste reactie in deze situatie?",
-        image: "img/emergency_stop.jpg",
+        image: getImagePath("auto8.png"),
         answers: [
           "Direct vol op de rem",
           "Rustig vaart minderen",
@@ -106,24 +111,24 @@
         correct: 0
       },
       {
-        question: "Wat moet je doen bij aquaplaning in deze situatie?",
-        image: "img/aquaplaning_situation.jpg",
-        answers: [
-          "Gas loslaten en rechtuit sturen",
-          "Hard remmen",
-          "Snel uitwijken",
-          "Gas bijgeven"
-        ],
-        correct: 0
+          question: "Wanneer moet je je groot licht dimmen?",
+          image: getImagePath("auto9.png"),
+          answers: [
+              "Alleen bij tegemoetkomend verkeer",
+              "Bij tegemoetkomend verkeer en achter andere voertuigen",
+              "Alleen als andere bestuurders seinen",
+              "Alleen binnen de bebouwde kom"
+          ],
+          correct: 1
       },
       {
-        question: "Wat is de juiste handeling in deze noodsituatie?",
-        image: "img/emergency_situation.jpg",
+        question: "Wat moet je doen als je een politieauto met sirene en zwaailicht achter je ziet?",
+        image: getImagePath("auto10.png"),
         answers: [
-          "Doorrijden en later melden",
-          "Alarmlichten aan en veilig stoppen",
-          "Snel wegrijden",
-          "Claxonneren en doorrijden"
+          "Direct hard remmen",
+          "Rustig naar rechts gaan en ruimte maken",
+          "Doorrijden op dezelfde snelheid",
+          "Snelheid verhogen om weg te komen"
         ],
         correct: 1
       }
@@ -131,7 +136,7 @@
     boat: [
       {
         question: "Welke kant moet je uitwijken als je een andere boot tegenkomt?",
-        image: "img/boat_passing.jpg", 
+        image: getImagePath("boot1.png"), 
         answers: [
           "Naar stuurboord (rechts)",
           "Naar bakboord (links)",
@@ -142,18 +147,18 @@
       },
       {
         question: "Wat betekent deze boei?",
-        image: "img/boat_buoy.jpg",
+        image: getImagePath("boot2.png"),
         answers: [
           "Veilige wateren",
           "Gevaarlijke rotsen",
           "Verboden te varen",
           "Aanlegplaats"
         ],
-        correct: 0
+        correct: 2
       },
       {
         question: "Hoe controleer je het weer voor vertrek?",
-        image: "img/boat_weather.jpg",
+        image: getImagePath("boot3.png"),
         answers: [
           "Alleen windrichting checken",
           "Complete weersverwachting bekijken",
@@ -164,7 +169,7 @@
       },
       {
           question: "Wat moet je doen bij het varen in mist?",
-          image: "img/boat_fog.jpg",
+          image: getImagePath("boot4.png"),
           answers: [
               "Normaal doorvaren",
               "Geluidssignalen geven en snelheid minderen",
@@ -175,7 +180,7 @@
       },
       {
         question: "Wat is de maximumsnelheid in de haven?",
-        image: "img/boat_harbor.jpg",
+        image: getImagePath("boot5.png"),
         answers: [
           "5 km/u",
           "10 km/u",
@@ -186,7 +191,7 @@
       },
       {
         question: "Welke veiligheidsuitrusting is verplicht aan boord?",
-        image: "img/boat_safety.jpg",
+        image: getImagePath("boot6.png"),
         answers: [
           "Alleen reddingsvesten",
           "Compleet veiligheidspakket",
@@ -197,7 +202,7 @@
       },
       {
         question: "Hoe reageer je op hoge golven?",
-        image: "img/boat_waves.jpg",
+        image: getImagePath("boot7.png"),
         answers: [
           "Golven recht benaderen",
           "Parallel aan de golven varen",
@@ -207,30 +212,30 @@
         correct: 0
       },
       {
-        question: "Wanneer moet je voorrang verlenen?",
-        image: "img/boat_priority.jpg",
+        question: "Wat is het maximaal toegestane alcoholpromillage tijdens het varen?",
+        image: getImagePath("boot8.png"),
         answers: [
-          "Aan boten van links",
-          "Aan zeilboten onder zeil",
-          "Aan snellere boten",
-          "Aan kleinere boten"
+          "0.8 promille",
+          "0.5 promille",
+          "0.2 promille",
+          "1.0 promille"
         ],
         correct: 1
       },
       {
-        question: "Wat doe je bij slecht zicht?",
-        image: "img/boat_visibility.jpg",
-        answers: [
-          "Gewoon doorvaren",
-          "Snelheid minderen en signalen geven",
-          "Anker uitgooien",
-          "Harder varen"
-        ],
-        correct: 1
+          question: "Wanneer ben je verplicht om een vaarbewijs te hebben?",
+          image: getImagePath("boot9.png"),
+          answers: [
+              "Alleen bij boten langer dan 20 meter",
+              "Bij boten sneller dan 20 km/u of langer dan 15 meter",
+              "Alleen bij speedboten",
+              "Bij alle boten, ongeacht grootte"
+          ],
+          correct: 1
       },
       {
         question: "Hoe moet je aanmeren in de haven?",
-        image: "img/boat_dock.jpg",
+        image: getImagePath("boot10.png"),
         answers: [
           "Zo snel mogelijk",
           "Langzaam en gecontroleerd",
@@ -243,7 +248,7 @@
     bike: [
       {
         question: "Wat is de juiste beschermende kleding voor op de motor?",
-        image: "img/bike_gear.jpg",
+        image: getImagePath("motor1.png"),
         answers: [
           "Alleen een helm is voldoende",
           "Helm, jas en stevige schoenen",
@@ -254,7 +259,7 @@
       },
       {
         question: "Hoe ga je het beste een scherpe bocht door op de motor?",
-        image: "img/bike_corner.jpg",
+        image: getImagePath("motor2.png"),
         answers: [
           "Vol gas door de bocht",
           "Remmen in de bocht",
@@ -264,19 +269,19 @@
         correct: 2
       },
       {
-          question: "Wie heeft er voorrang in deze situatie?",
-          image: "img/intersection_priority.jpg",
+          question: "Welke papieren moet je bij je hebben als je op een motor rijdt?",
+          image: getImagePath("motor3.png"), // Fixed: Image -> image
           answers: [
-              "Verkeer van links heeft voorrang",
-              "De eerste die aankomt heeft voorrang",
-              "Verkeer van rechts heeft voorrang",
-              "Rechtdoorgaand verkeer heeft voorrang"
+              "Alleen rijbewijs",
+              "Rijbewijs en kentekenbewijs",
+              "Rijbewijs, kentekenbewijs en verzekeringsbewijs",
+              "Alleen kentekenbewijs"
           ],
           correct: 2
       },
       {
         question: "Hoe controleer je de ketting van je motor?",
-        image: "img/bike_chain.jpg",
+        image: getImagePath("motor4.png"),
         answers: [
           "Alleen visuele inspectie",
           "Controleer spanning en smering",
@@ -287,6 +292,7 @@
       },
       {
         question: "Wat is de beste positie op de weg als motorrijder?",
+        image: getImagePath("motor5.png"),
         answers: [
           "Uiterst links op de rijbaan",
           "Midden op de rijbaan",
@@ -297,7 +303,7 @@
       },
       {
         question: "Hoe reageer je op een glad wegdek?",
-        image: "img/wet_road.jpg",
+        image: getImagePath("motor6.png"),
         answers: [
           "Rustig rijden en geen abrupte bewegingen",
           "Snel doorrijden",
@@ -307,18 +313,19 @@
         correct: 0
       },
       {
-        question: "Wanneer moet je extra afstand houden als motorrijder?",
-        answers: [
-          "Alleen bij regen",
-          "Alleen in bochten",
-          "Bij alle weersomstandigheden",
-          "Alleen op de snelweg"
-        ],
-        correct: 2
+          question: "Welke factoren beïnvloeden de remweg van een motor?",
+          image: getImagePath("motor7.png"),
+          answers: [
+              "Alleen de snelheid",
+              "Alleen het wegdek",
+              "Snelheid, wegdek en bandenprofiel",
+              "Alleen het weer"
+          ],
+          correct: 2
       },
       {
         question: "Hoe parkeer je een motor op een helling?",
-        image: "img/bike_parking.jpg",
+        image: getImagePath("motor8.png"),
         answers: [
           "In eerste versnelling, wiel recht",
           "In zijn vrij, standaard uit",
@@ -329,6 +336,7 @@
       },
       {
         question: "Wat is belangrijk bij het inhalen met een motor?",
+        image: getImagePath("motor9.png"),
         answers: [
           "Zo snel mogelijk inhalen",
           "Dode hoek checken en veilige afstand",
@@ -338,21 +346,21 @@
         correct: 1
       },
       {
-        question: "Hoe ga je om met sterke zijwind op de motor?",
-        image: "img/side_wind.jpg",
-        answers: [
-          "Snelheid verhogen",
-          "Naar de wind toe leunen",
-          "Van de wind af leunen",
-          "Rechtop blijven en snelheid aanpassen"
-        ],
-        correct: 3
+          question: "Hoeveel seconden volgafstand moet je minimaal aanhouden op een droge weg?",
+          image: getImagePath("motor10.png"),
+          answers: [
+              "1 seconde",
+              "2 seconden",
+              "3 seconden",
+              "4 seconden"
+          ],
+          correct: 1
       }
     ],
     truck: [
       {
         question: "Wat is de maximale hoogte voor een vrachtwagen?",
-        image: "img/truck_height.jpg",
+        image: getImagePath("vrachtwagen1.png"),
         answers: [
           "4 meter",
           "4.5 meter",
@@ -363,6 +371,7 @@
       },
       {
         question: "Hoe vaak moet je verplicht rusten als vrachtwagenchauffeur?",
+        image: getImagePath("vrachtwagen2.png"),
         answers: [
           "Elke 2 uur 15 minuten",
           "Elke 4 uur 30 minuten",
@@ -373,7 +382,7 @@
       },
       {
         question: "Wat doe je als je lading begint te schuiven?",
-        image: "img/truck_cargo.jpg",
+        image: getImagePath("vrachtwagen3.png"),
         answers: [
           "Direct hard remmen",
           "Rustig vaart minderen en veilig stoppen",
@@ -384,6 +393,7 @@
       },
       {
         question: "Wat is de minimale volgafstand voor vrachtwagens?",
+        image: getImagePath("vrachtwagen4.png"),
         answers: [
           "2 seconden",
           "3 seconden",
@@ -394,7 +404,7 @@
       },
       {
         question: "Hoe controleer je de lading voor vertrek?",
-        image: "img/cargo_check.jpg",
+        image: getImagePath("vrachtwagen5.png"),
         answers: [
           "Visuele inspectie is voldoende",
           "Complete controle van vastzetmaterialen",
@@ -405,6 +415,7 @@
       },
       {
         question: "Wat is de maximumsnelheid voor vrachtwagens op de snelweg?",
+        image: getImagePath("vrachtwagen6.png"),
         answers: [
           "80 km/u",
           "90 km/u",
@@ -415,7 +426,7 @@
       },
       {
         question: "Hoe neem je een bocht met een vrachtwagen?",
-        image: "img/truck_turn.jpg",
+        image: getImagePath("vrachtwagen7.png"),
         answers: [
           "Kort door de bocht",
           "Wijd uitdraaien",
@@ -426,6 +437,7 @@
       },
       {
         question: "Wat moet je extra controleren bij mistig weer?",
+        image: getImagePath("vrachtwagen8.png"),
         answers: [
           "Alleen de verlichting",
           "Verlichting en markering",
@@ -436,7 +448,7 @@
       },
       {
         question: "Hoe ga je om met zijwind?",
-        image: "img/truck_wind.jpg",
+        image: getImagePath("vrachtwagen9.png"),
         answers: [
           "Snelheid verhogen",
           "Snelheid verlagen en stuur corrigeren",
@@ -447,6 +459,7 @@
       },
       {
         question: "Wanneer moet je de bandenspanning controleren?",
+        image: getImagePath("vrachtwagen10.png"),
         answers: [
           "Alleen bij de jaarlijkse keuring",
           "Wekelijks en voor lange ritten",
@@ -507,12 +520,20 @@
   // Voeg een reactiviteit voor live scaling toe
   let scaleFactor = 1;
   function updateScale() {
-    // Als de viewport kleiner is dan 1920x1080, houd scaleFactor op 1
-    if (window.innerWidth < 1920 || window.innerHeight < 1080) {
-      scaleFactor = 1;
-    } else {
-      scaleFactor = Math.min(1.8, Math.min(window.innerWidth / 1920, window.innerHeight / 1080));
-    }
+    // Basisresolutie is 1080p (1920x1080)
+
+    const baseWidth = 1920;
+    const baseHeight = 1080;
+
+    // Bereken scaling factor op basis van schermgrootte
+    const widthScale = window.innerWidth / baseWidth;
+    const heightScale = window.innerHeight / baseHeight;
+
+    // Gebruik de kleinste scale factor om aspect ratio te behouden
+    scaleFactor = Math.min(widthScale, heightScale);
+
+    // Begrens de scaling tussen 0.4 (40%) en 1.8 (180%)
+    scaleFactor = Math.max(0.4, Math.min(1.8, scaleFactor));
   }
   onMount(() => {
     updateScale();
@@ -547,26 +568,26 @@
 </script>
 
 {#if visible}
-  <div class="fixed inset-0 z-40">
-    <div class="min-h-screen flex items-center justify-center p-6"
+  <div class="fixed inset-0 z-40 overflow-hidden">
+    <div class="absolute inset-0 flex items-center justify-center"
       in:scale={{ duration: 200, start: 0.97 }}
       out:scale={{ duration: 150, start: 1 }}
     >
-      <!-- Gebruik nu de reactiviteit met scaleFactor, zodat live resizes meeschalen -->
-      <div style="transform: scale({scaleFactor}); transform-origin: center;">
-        <!-- Wijzig hier de breedte naar een dunnere layout -->
-        <div class="w-[680px]">
-          <!-- Changed back to brand color with full opacity -->
+      <!-- Vaste container met absolute positionering -->
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <!-- Container met vaste afmetingen -->
+        <div class="w-[780px] mx-auto" style="transform: scale({scaleFactor});">
           <div class="bg-brand-black rounded-xl overflow-hidden">
-            <div class="h-[760px] relative"> <!-- Verhoogd van 740px naar 800px -->
+            <div class="h-[900px] relative"> <!-- Verhoogd van 740px naar 900px -->
               {#if examState === 'intro'}
-                <div class="absolute inset-0 flex flex-col items-center justify-center px-8"
+                <!-- Verhoogd padding van px-8 naar px-12 -->
+                <div class="absolute inset-0 flex flex-col items-center justify-center px-12"
                   in:fly={{ y: 10, duration: 200, delay: 50 }}
                   out:fly={{ y: -10, duration: 200 }}
                 >
-                  <div class="w-full max-w-2xl">
+                  <div class="w-full max-w-3xl"> <!-- Verhoogd van max-w-2xl naar max-w-3xl -->
                     <!-- Header Section -->
-                    <div class="text-center mb-8">
+                    <div class="text-center mb-12"> <!-- Verhoogd margin van mb-8 naar mb-12 -->
                       <div class="inline-block p-2 rounded-full bg-brand-purple/10 mb-4">
                         {#if testType === 'dmv'}
                           <Car class="w-8 h-8 text-brand-purple" />
@@ -592,9 +613,9 @@
                       <p class="text-white/60">Ben je klaar om je theoretische kennis te testen?</p>
                     </div>
 
-                    <!-- Info Cards Grid -->
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                      <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-6 border border-brand-purple/10">
+                    <!-- Info Cards Grid - Maak kaarten groter -->
+                    <div class="grid grid-cols-2 gap-6 mb-12"> <!-- Verhoogd gap-4 naar gap-6 en mb-8 naar mb-12 -->
+                      <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-8 border border-brand-purple/10"> <!-- Verhoogd padding van p-6 naar p-8 -->
                         <div class="flex items-center gap-4">
                           <div class="p-2 rounded-lg bg-brand-purple/10">
                             <CircleQuestion class="w-6 h-6 text-brand-purple" />
@@ -605,7 +626,7 @@
                           </div>
                         </div>
                       </div>
-                      <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-6 border border-brand-purple/10">
+                      <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-8 border border-brand-purple/10">
                         <div class="flex items-center gap-4">
                           <div class="p-2 rounded-lg bg-brand-purple/10">
                             <CircleQuestion class="w-6 h-6 text-brand-purple" />
@@ -618,8 +639,8 @@
                       </div>
                     </div>
 
-                    <!-- Description Card -->
-                    <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-6 border border-brand-purple/10 mb-8">
+                    <!-- Description Card - Maak beschrijving groter -->
+                    <div class="bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 rounded-xl p-8 border border-brand-purple/10 mb-12">
                       <h3 class="text-white font-semibold mb-2">Over dit examen</h3>
                       <p class="text-white/80 text-sm leading-relaxed">
                         {#if testType === 'dmv'}
@@ -634,11 +655,11 @@
                       </p>
                     </div>
 
-                    <!-- Start Button -->
+                    <!-- Start Button - Maak knop groter -->
                     <button 
                       class="w-full bg-gradient-to-br from-brand-purple/10 to-brand-purple/5 
                         border border-brand-purple/10 text-white font-medium 
-                        rounded-xl px-6 py-4 hover:bg-brand-purple/15
+                        rounded-xl px-8 py-5 hover:bg-brand-purple/15
                         transition-all duration-200 group"
                       on:click={startExam}
                     >
@@ -657,7 +678,8 @@
                   in:fly={{ y: 10, duration: 200 }}
                   out:fly={{ y: -10, duration: 200 }}
                 >
-                  <div class="relative h-64">
+                  <!-- Verhoog de afbeeldingshoogte naar h-96 (384px) -->
+                  <div class="relative h-96">
                     {#if questions[currentQuestion].image}
                       {#key currentQuestion}
                         <div class="absolute inset-0"
@@ -758,13 +780,13 @@
                   </div>
                 </div>
 
-              {:else}
+              {:else if examState === 'result'}
                 <div class="absolute inset-0 flex flex-col items-center justify-center"
                   in:fly={{ y: 10, duration: 200 }}
                   out:fly={{ y: -10, duration: 200 }}
                 >
-                  <div class="flex flex-col items-center gap-12">
-                    <div class="relative w-48 h-48">
+                  <div class="flex flex-col items-center gap-16"> <!-- Verhoogd gap van 12 naar 16 -->
+                    <div class="relative w-56 h-56"> <!-- Verhoogd van w-48 h-48 naar w-56 h-56 -->
                       <svg class="w-full h-full transform -rotate-90" viewBox="0 0 120 120">
                         <circle
                           cx="60"
@@ -794,44 +816,49 @@
                       </div>
                     </div>
 
-                    <div class="space-y-3 text-center">
-                      <h2 class="text-3xl font-semibold text-white">
+                    <div class="space-y-4 text-center"> <!-- Verhoogd gap van space-y-3 naar space-y-4 -->
+                      <h2 class="text-4xl font-semibold text-white"> <!-- Verhoogd van text-3xl naar text-4xl -->
                         {passed ? 'Gefeliciteerd!' : 'Helaas!'}
                       </h2>
-                      <div class="space-y-2">
-                        <p class="text-lg text-white/90">
+                      <div class="space-y-3"> <!-- Verhoogd van space-y-2 naar space-y-3 -->
+                        <p class="text-xl text-white/90"> <!-- Verhoogd van text-lg naar text-xl -->
                           {passed 
                             ? 'Je bent geslaagd voor het theorie-examen.' 
                             : 'Je bent helaas niet geslaagd voor het theorie-examen.'}
                         </p>
-                        <p class="text-sm text-brand-cyan">
+                        <p class="text-base text-brand-cyan"> <!-- Verhoogd van text-sm naar text-base -->
                           Je hebt {score} van de {questions.length} vragen goed beantwoord
                         </p>
                       </div>
                     </div>
 
                     <button 
-                      class="px-8 py-3 rounded-md text-sm font-medium bg-brand-purple text-white hover:bg-brand-purple/90 transition-colors"
+                      class="px-12 py-5 rounded-xl text-base font-medium bg-brand-purple text-white"
                       on:click={async () => {
-                        // Alleen uitvoeren als we in FiveM zitten (niet localhost)
-                        if (typeof GetParentResourceName === 'function' && 'invokeNative' in window) {
-                          const resourceName = GetParentResourceName();
-                          try {
+                        const closeUI = async () => {
+                          if (
+                            typeof GetParentResourceName === 'function' && 
+                            'invokeNative' in window
+                          ) {
+                            const resourceName = GetParentResourceName();
                             await fetch(`https://${resourceName}/${passed ? 'close' : 'kick'}`, {
                               method: 'POST',
                               headers: { 'Content-Type': 'application/json' },
                               body: JSON.stringify({ passed, type: testType })
                             });
-                          } catch (error) {
-                            console.error("[NUI] Fetch error:", error);
                           }
-                        } else {
-                          console.warn("Not in FiveM environment; skipping fetch");
-                        }
+                        };
+                    
+                        // Eerst de NUI callback aanroepen
+                        await closeUI();
+                        // Dan pas de UI verbergen
                         visible = false;
                       }}
                     >
-                      Sluiten
+                      <div class="flex items-center justify-center gap-3">
+                        <span class="tracking-wide">Sluiten</span>
+                        <ArrowRight class="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
                     </button>
                   </div>
                 </div>

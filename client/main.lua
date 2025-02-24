@@ -11,7 +11,6 @@ local CurrentBlip       = nil
 local CurrentZoneType   = nil
 local LastVehicleHealth = nil
 local failedTest = false
-local isDev = false -- Set this to true when testing with dev server
 
 function DrawMissionText(msg, time)
 	ClearPrints()
@@ -26,8 +25,11 @@ function StartTheoryTest(type)
 
     SendNUIMessage({
         openQuestion = true,
-        testType = type -- This will determine which question set to use
+        testType = type -- type vragen (auto, vrachtwagen, motor etc.)
     })
+    
+    -- Start tablet animatie
+    exports["rpemotes"]:EmoteCommandStart("tablet2")
     
     ESX.SetTimeout(200, function()
         SetNuiFocus(true, true)
@@ -37,18 +39,24 @@ end
 function StopTheoryTest(success)
     CurrentTest = nil
 
+    -- Stop tablet animatie
+    exports["rpemotes"]:EmoteCancel()
+
     SendNUIMessage({
         openQuestion = false
     })
 
-    SetNuiFocus(false)
+    SetNuiFocus(false, false)
 
     if success then
-        -- Add license based on test type
         TriggerServerEvent('esx_dmvschool:addLicense', CurrentTestType)
         ESX.ShowNotification(TranslateCap('passed_test'))
+        -- Speel success animatie als laatste
+        exports["rpemotes"]:EmoteCommandStart("cheer")
     else
-        ESX.ShowNotification(TranslateCap('failed_test'))
+        ESX.ShowNotification(TranslateCap('failed_test')) 
+        -- Speel fail animatie als laatste
+        exports["rpemotes"]:EmoteCommandStart("damn")
     end
 end
 
@@ -368,25 +376,4 @@ CreateThread(function()
 		Wait(sleep)
 	end
 end)
-
--- Add this near your other command registrations
--- Replace the existing dmv_debug command with this:
-RegisterCommand('dmv_debug', function(source, args)
-    -- Remove the debug check to always allow the command
-    if args[1] == 'open' then
-        SetNuiFocus(true, true)
-        SendNUIMessage({
-            openQuestion = true
-        })
-        -- Set visible to true in the NUI
-        visible = true
-    elseif args[1] == 'close' then
-        SetNuiFocus(false, false)
-        SendNUIMessage({
-            openQuestion = false
-        })
-        -- Set visible to false in the NUI
-        visible = false
-    end
-end, false)
 

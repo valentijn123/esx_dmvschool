@@ -117,15 +117,17 @@ In [`client/main.lua`](client/main.lua) moet de `StartTheoryTest` functie worden
 Oude Functie:
 ```lua
 function StartTheoryTest()
-    CurrentTest = 'theory'
+	CurrentTest = 'theory'
 
-    SendNUIMessage({
-        openQuestion = true
-    })
+	SendNUIMessage({
+		openQuestion = true
+	})
 
-    ESX.SetTimeout(200, function()
-        SetNuiFocus(true, true)
-    end)
+	ESX.SetTimeout(200, function()
+		SetNuiFocus(true, true)
+	end)
+
+
 end
 ```
 
@@ -133,12 +135,15 @@ Nieuwe Functie:
 ```lua
 function StartTheoryTest(type)
     CurrentTest = 'theory'
-    CurrentTestType = type  -- Slaat het type examen op (dmv, bike, truck, boat)
+    CurrentTestType = type
 
     SendNUIMessage({
         openQuestion = true,
-        testType = type     -- Stuurt type door naar NUI interface
+        testType = type -- type vragen (auto, vrachtwagen, motor etc.)
     })
+    
+    -- Start tablet animatie
+    exports["rpemotes"]:EmoteCommandStart("tablet2")
     
     ESX.SetTimeout(200, function()
         SetNuiFocus(true, true)
@@ -157,20 +162,20 @@ In [`client/main.lua`](client/main.lua) moet ook de `StopTheoryTest` functie wor
 Oude Functie:
 ```lua
 function StopTheoryTest(success)
-    CurrentTest = nil
+	CurrentTest = nil
 
-    SendNUIMessage({
-        openQuestion = false
-    })
+	SendNUIMessage({
+		openQuestion = false
+	})
 
-    SetNuiFocus(false)
+	SetNuiFocus(false)
 
-    if success then
-        TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
-        ESX.ShowNotification(TranslateCap('passed_test'))
-    else
-        ESX.ShowNotification(TranslateCap('failed_test'))
-    end
+	if success then
+		TriggerServerEvent('esx_dmvschool:addLicense', 'dmv')
+		ESX.ShowNotification(TranslateCap('passed_test'))
+	else
+		ESX.ShowNotification(TranslateCap('failed_test'))
+	end
 end
 ```
 
@@ -179,21 +184,262 @@ Nieuwe Functie:
 function StopTheoryTest(success)
     CurrentTest = nil
 
+    -- Stop tablet animatie
+    exports["rpemotes"]:EmoteCancel()
+
     SendNUIMessage({
         openQuestion = false
     })
 
-    SetNuiFocus(false)
+    SetNuiFocus(false, false)
 
     if success then
-        -- License toevoegen gebaseerd op categorie
         TriggerServerEvent('esx_dmvschool:addLicense', CurrentTestType)
         ESX.ShowNotification(TranslateCap('passed_test'))
+        -- Speel success animatie als laatste
+        exports["rpemotes"]:EmoteCommandStart("cheer")
     else
-        ESX.ShowNotification(TranslateCap('failed_test'))
+        ESX.ShowNotification(TranslateCap('failed_test')) 
+        -- Speel fail animatie als laatste
+        exports["rpemotes"]:EmoteCommandStart("damn")
     end
 end
 ```
 
 Deze aanpassing:
 - Voegt de juiste licentie toe op basis van het examen type (`CurrentTestType`)
+
+In [`client/main.lua`](client/main.lua) moet ook de `OpenDMVSchoolMenu` functie worden aangepast om ook de nieuwe theorie examens toe te voegen aan het menu. Let op! in het geval van 5H is het esx_contextmenu wss het 5h_menu
+Oude Functie:
+```lua
+function OpenDMVSchoolMenu()
+	local ownedLicenses = {}
+
+	for i=1, #Licenses, 1 do
+		ownedLicenses[Licenses[i].type] = true
+	end
+
+	local elements = {
+		{unselectable = true, icon = "fas fa-car", title = TranslateCap("driving_school")}
+	}
+
+	if not ownedLicenses['dmv'] then
+		elements[#elements+1] = {
+			icon = "fas fa-car",
+			title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('theory_test'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['dmv'])))),
+			value = "theory_test"
+		}
+	end
+
+	if ownedLicenses['dmv'] then
+		if not ownedLicenses['drive'] then
+			elements[#elements+1] = {
+				icon = "fas fa-car",
+				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_car'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive'])))),
+				value = "drive_test",
+				type = "drive"
+			}
+		end
+
+		if not ownedLicenses['drive_bike'] then
+			elements[#elements+1] = {
+				icon = "fas fa-car",
+				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_bike'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive_bike'])))),
+				value = "drive_test",
+				type = "drive_bike"
+			}
+		end
+
+		if not ownedLicenses['drive_truck'] then
+			elements[#elements+1] = {
+				icon = "fas fa-car",
+				title = (('%s: <span style="color:green;">%s</span>'):format(TranslateCap('road_test_truck'), TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices['drive_truck'])))),
+				value = "drive_test",
+				type = "drive_truck"
+			}
+		end
+	end
+
+	ESX.OpenContext("right", elements, function(menu,element)
+		if element.value == "theory_test" then
+			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+				if haveMoney then
+					ESX.CloseContext()
+					StartTheoryTest()
+				else
+					ESX.ShowNotification(TranslateCap('not_enough_money'))
+				end
+			end, 'dmv')
+		elseif element.value == "drive_test" then
+			ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+				if haveMoney then
+					ESX.CloseContext()
+					StartDriveTest(element.type)
+				else
+					ESX.ShowNotification(TranslateCap('not_enough_money'))
+				end
+			end, element.type)
+		end
+	end, function(menu)
+		CurrentAction     = 'dmvschool_menu'
+		CurrentActionMsg  = TranslateCap('press_open_menu')
+		CurrentActionData = {}
+	end)
+end
+```
+
+Nieuwe Functie:
+```lua
+function OpenDMVSchoolMenu()
+    local ownedLicenses = {}
+
+    for i=1, #Licenses, 1 do
+        ownedLicenses[Licenses[i].type] = true
+    end
+
+    local elements = {
+        {unselectable = true, icon = "fas fa-car", title = TranslateCap("driving_school")}
+    }
+
+    -- Voeg de theorie testen van de config toe
+    for type, data in pairs(Config.TheoryTestCategories) do
+        if not ownedLicenses[type] then
+            elements[#elements+1] = {
+                icon = "fas fa-book",
+                title = (('%s: <span style="color:green;">%s</span>'):format(data.label, TranslateCap('school_item', ESX.Math.GroupDigits(data.price)))),
+                value = "theory_test",
+                testType = type
+            }
+        end
+    end
+    -- Koppel theorie licenties aan praktijk licenties
+    local theoryToPractical = {
+        dmv = 'drive',      -- Auto theorie -> Auto praktijk
+        bike = 'drive_bike', -- Motor theorie -> Motor praktijk
+        truck = 'drive_truck' -- Vrachtwagen theorie -> Vrachtwagen praktijk
+    }
+
+    -- Voeg praktijkexamens alleen toe als de speler de bijbehorende theorie licentie heeft
+    for theoryType, practicalType in pairs(theoryToPractical) do
+        if ownedLicenses[theoryType] and not ownedLicenses[practicalType] then
+            elements[#elements+1] = {
+                icon = "fas fa-car",
+                title = (('%s: <span style="color:green;">%s</span>'):format(
+                    TranslateCap('road_test_' .. practicalType), 
+                    TranslateCap('school_item', ESX.Math.GroupDigits(Config.Prices[practicalType]))
+                )),
+                value = "drive_test",
+                type = practicalType
+            }
+        end
+    end
+
+    ESX.OpenContext("right", elements, function(menu,element)
+        if element.value == "theory_test" then
+            ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+                if haveMoney then
+                    ESX.CloseContext()
+                    StartTheoryTest(element.testType)
+                else
+                    ESX.ShowNotification(TranslateCap('not_enough_money'))
+                end
+            end, element.testType)
+        elseif element.value == "drive_test" then
+            ESX.TriggerServerCallback('esx_dmvschool:canYouPay', function(haveMoney)
+                if haveMoney then
+                    ESX.CloseContext()
+                    StartDriveTest(element.type)
+                else
+                    ESX.ShowNotification(TranslateCap('not_enough_money'))
+                end
+            end, element.type)
+        end
+    end, function(menu)
+        CurrentAction     = 'dmvschool_menu'
+        CurrentActionMsg  = TranslateCap('press_open_menu')
+        CurrentActionData = {}
+    end)
+end
+```
+5. **Server Functies Aanpassen:**
+de inhoud van de [`server/main.lua`](server/main.lua) is best wel weinig laten we hierdoor ook de volledige inhoud copy pasten
+
+Oude inhoud:
+```lua
+ESX.RegisterServerCallback('esx_dmvschool:canYouPay', function(source, cb, type)
+	local xPlayer = ESX.GetPlayerFromId(source)
+
+	if xPlayer.getMoney() >= Config.Prices[type] then
+		xPlayer.removeMoney(Config.Prices[type], "DMV Purchase")
+		TriggerClientEvent('esx:showNotification', source, TranslateCap('you_paid', Config.Prices[type]))
+		cb(true)
+	else
+		cb(false)
+	end
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+	TriggerEvent('esx_license:getLicenses', source, function(licenses)
+		TriggerClientEvent('esx_dmvschool:loadLicenses', source, licenses)
+	end)
+end)
+
+RegisterNetEvent('esx_dmvschool:addLicense')
+AddEventHandler('esx_dmvschool:addLicense', function(type)
+	local source = source
+
+	TriggerEvent('esx_license:addLicense', source, type, function()
+		TriggerEvent('esx_license:getLicenses', source, function(licenses)
+			TriggerClientEvent('esx_dmvschool:loadLicenses', source, licenses)
+		end)
+	end)
+end)
+```
+Nieuwe inhoud:
+```lua
+ESX.RegisterServerCallback('esx_dmvschool:canYouPay', function(source, cb, type)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    local price = Config.TheoryTestCategories[type].price
+
+    if xPlayer.getMoney() >= price then
+        xPlayer.removeMoney(price)
+        cb(true)
+    else
+        cb(false)
+    end
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+    TriggerEvent('esx_license:getLicenses', source, function(licenses)
+        TriggerClientEvent('esx_dmvschool:loadLicenses', source, licenses)
+    end)
+end)
+
+RegisterNetEvent('esx_dmvschool:addLicense')
+AddEventHandler('esx_dmvschool:addLicense', function(type)
+    local source = source
+
+    -- Map test types to license types
+    local licenseTypes = {
+        dmv = 'dmv',
+        boat = 'boat',
+        bike = 'bike',
+        truck = 'truck'
+    }
+
+    -- Get the correct license type
+    local licenseType = licenseTypes[type]
+    
+    if licenseType then
+        TriggerEvent('esx_license:addLicense', source, licenseType, function()
+            TriggerEvent('esx_license:getLicenses', source, function(licenses)
+                TriggerClientEvent('esx_dmvschool:loadLicenses', source, licenses)
+            end)
+        end)
+    end
+end)
+```
+
+Deze aanpassing:
+- Haalt de prijs direct uit de config 
+- Voegt een mapping systeem toe voor licentie type
